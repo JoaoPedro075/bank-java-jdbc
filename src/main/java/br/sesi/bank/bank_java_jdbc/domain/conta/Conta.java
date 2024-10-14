@@ -6,18 +6,18 @@ import java.math.BigDecimal;
 
 public class Conta {
         private Integer numero;
-        private BigDecimal valor;
+        private BigDecimal saldo;
         private Cliente titular;
 
-        public Conta(Integer numero, BigDecimal valor, Cliente titular){
+        public Conta(Integer numero, BigDecimal saldo, Cliente titular){
         this.numero = numero;
-        this.valor = valor;
+        this.saldo = saldo;
         this.titular = titular;
 
         }
         public boolean possuiSaldo(){
 
-            return true;
+            return this.saldo.compareTo(BigDecimal.ZERO) != 0;
         }
 
         public void sacar(BigDecimal valor){
