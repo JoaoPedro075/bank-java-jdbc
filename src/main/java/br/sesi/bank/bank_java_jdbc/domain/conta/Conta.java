@@ -3,6 +3,7 @@ package br.sesi.bank.bank_java_jdbc.domain.conta;
 import br.sesi.bank.bank_java_jdbc.domain.cliente.Cliente;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 public class Conta {
         private Integer numero;
@@ -21,12 +22,11 @@ public class Conta {
         }
 
         public void sacar(BigDecimal valor){
-
-
+            this.saldo = this.saldo.subtract(valor);
         }
 
         public void depositar(BigDecimal valor){
-
+            this.saldo = this.saldo.add(valor);
 
         }
 
@@ -45,14 +45,29 @@ public class Conta {
             return titular;
 
         }
-
+        @Override
         public boolean equals(Object o){
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Conta conta = (Conta) o;
+            return numero.equals(conta.numero);
 
-            return true;
         }
-
+        @Override
         public int hashCode(){
-
-            return 0;
+            return Objects.hash(numero);
         }
+
+        public String toString() {
+            return "Conta{" +
+                    "numero='" + numero + '\'' +
+                    ", saldo+" + saldo +
+                    ", titular=" + titular +
+                    '}';
+
+
+
+
+        }
+
 }
