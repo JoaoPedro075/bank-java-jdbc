@@ -61,7 +61,7 @@ public void abrir(DadosAberturaConta dadosAberturaConta) {
     private Conta buscarContaPorNumero(Integer numero){
         return contas
                 .stream()
-                .filter(c -> c.getNumero() == numero)
+                .filter(c -> c.getNumero().equals(numero))
                 .findFirst()
                 .orElseThrow(()-> new RegraDeNegocioException("Não existe conta cadastrada com esse número!"));
     }

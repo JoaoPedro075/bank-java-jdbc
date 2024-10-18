@@ -32,7 +32,7 @@ public class Conta {
 
         public Integer getNumero(){
 
-            return 0;
+            return this.numero;
         }
 
         public BigDecimal getSaldo(){
