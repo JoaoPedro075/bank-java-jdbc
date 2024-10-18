@@ -2,9 +2,11 @@ package br.sesi.bank.bank_java_jdbc.controller;
 
 import br.sesi.bank.bank_java_jdbc.domain.cliente.DadosCadastroCliente;
 import br.sesi.bank.bank_java_jdbc.domain.conta.Conta;
+import br.sesi.bank.bank_java_jdbc.domain.conta.DadosAberturaConta;
 import br.sesi.bank.bank_java_jdbc.exceptions.RegraDeNegocioException;
 import br.sesi.bank.bank_java_jdbc.service.ContaService;
 
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.Scanner;
 
@@ -60,43 +62,116 @@ public class BankJavaController {
 
     }
 
-    public int exibirMenu(){
+    private int exibirMenu(){
 
-        return 0;
+        System.out.println("""
+                BYTEBANK - ESCOLHA UMA OPÇÃO:
+                1 - Listar contas abertas
+                2 - Abertura de conta
+                3 - Encerramento de conta
+                4 - Consultar saldo de uma conta
+                5 - Realizar saque em uma conta
+                6 - Realizar depósito em uma conta
+                7 - Realizar uma transferência
+                8 - Sair
+                 
+                """);
+        return teclado.nextInt();
     }
 
     public void listarContas(){
+        System.out.println("Contas cadastradas:");
+        var contas = service.listarContasAbertas();
+        contas.stream().forEach(System.out::println);
 
-
-    }
-
-    public void abrirConta(){
-
-
-    }
-
-    public void encerrarConta(){
-
+        System.out.println("Pressione qualquer tecla e de ENTER para voltar ao menu principal");
+        teclado.next();
 
     }
 
-    public void consultarSaldo(){
+    private void abrirConta(){
+        System.out.println("Digite o número da conta:");
+        var numeroDaConta = teclado.nextInt();
 
+        System.out.println("Digite o nome do cliente:");
+        var nome = teclado.next();
+
+        System.out.println("Digite o cpf do cliente:");
+        var cpf = teclado.next();
+
+        System.out.println("Digite o email do cliente:");
+        var email = teclado.next();
+
+        service.abrir(new DadosAberturaConta(numeroDaConta, new DadosCadastroCliente(nome, cpf, email)));
+
+        System.out.println("Conta aberta com sucesso!");
+        System.out.println("Pressione qualquer tecla e de ENTER para voltar ao menu principal");
+        teclado.next();
+    }
+
+    private void encerrarConta(){
+        System.out.println("Digite o número da conta:");
+        var numeroDaConta = teclado.nextInt();
+
+        service.encerrar(numeroDaConta);
+
+        System.out.println("Conta encerrada com sucesso!");
+        System.out.println("Pressione qualquer tecla e de ENTER para voltar ao menu principal");
+        teclado.next();
 
     }
 
-    public void realizarSaque(){
+    private void consultarSaldo(){
+        System.out.println("Digite o número da conta:");
+        var numeroDaConta = teclado.nextInt();
+        var saldo = service.consultarSaldo(numeroDaConta);
+        System.out.println("Saldo da conta: " +saldo    );
 
+        System.out.println("Pressione qualquer tecla e de ENTER para voltar ao menu principal");
+        teclado.next();
 
     }
 
-    public void realizarDeposito(){
+    private void realizarSaque(){
+        System.out.println("Digite o número da conta:");
+        var numeroDaConta = teclado.nextInt();
 
+        System.out.println("Digite o valor do saque:");
+        var valor = teclado.nextBigDecimal();
 
+        service.realizarSaque(numeroDaConta, valor);
+        System.out.println("Saque realizado com sucesso!");
+            System.out.println("Pressione qualquer tecla e de ENTER para voltar ao menu principal");
+            teclado.next();
+
+    }
+
+    private void realizarDeposito(){
+        System.out.println("Digite o número da conta:");
+        var numeroDaConta = teclado.nextInt();
+
+        System.out.println("Digite o valor do depósito:");
+        var valor = teclado.nextBigDecimal();
+
+        service.realizarDeposito(numeroDaConta, valor);
+
+        System.out.println("Depósito realizado com sucesso!");
+        System.out.println("Pressione qualquer tecla e de ENTER para voltar ao menu principal");
+        teclado.next();
     }
 
     public void realizarTransferencia(){
+        System.out.println("Digite o número da conta de ORIGEM: ");
+        int numeroDaContaOrigem = teclado.nextInt();
+        System.out.println("Digite o número da conta DESTINO: ");
+        int numeroDaContaDestino = teclado.nextInt();
+        System.out.println("Informe o valor a ser transferido: ");
+        BigDecimal valor = teclado.nextBigDecimal();
 
+        //this.service.realizarTransferencia(numeroDaContaOrigem, numeroDaContaDestino, valor);
+        System.out.println("Transferência realizada com sucesso! ");
+        System.out.println("Pressione qualquer tecla e pressione ENTER para voltar ao menu principal");
+        teclado.next();
 
     }
 }
